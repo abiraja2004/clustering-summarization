@@ -16,3 +16,4 @@ No es seguro que todos estén basados en clustering.
 - [Clustering tool for summarization](https://pdfs.semanticscholar.org/f6a3/6b6b3dd264cbbbd5bdb104d34d90113b4652.pdf)
 - [Multi-document summarization](https://sci-hub.tw/dl.acm.org/citation.cfm?id=1390386)
 - [Centroid based summarization](https://sci-hub.tw/10.1016/j.ipm.2003.10.006)
+- [Ranking Through Clustering: An Integrated Approach to Multi-Document Summarization](https://www.semanticscholar.org/paper/Ranking-Through-Clustering%3A-An-Integrated-Approach-Cai-Li/5261431c078f1c83740b9597e5263df7d218baf5)

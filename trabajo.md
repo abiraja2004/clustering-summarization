@@ -93,12 +93,25 @@ En este módulo se usan dos servicios de puntuación de oraciones. El primero es
 En este paso se crea un modelo gráfico de cuatro dimensiones. Cada sentencia del documento se representa como un vértice y cuatro tipos de enlaces:
 
 *Similitud estadística:* Este método mide el solapamiento del contenido entre un par de oraciones. Si supera un límite proporcionado por el usario, el enlace entre dicho par se crea. Para medir la similitud se usa el coseno. Crea un modelo de  bolsa de palabras que representa cada oración como un vector N-Dimensional. El vector encapsula la palabra y su frecuencia en el texto. La similitud entre dos oraciones se define como el coseno entre los dos vectores correspondientes. Esta medida viene dada por:
-
 $$
 \text{Wsim}(Si, Sj) = \frac{\vec{Si}\vec{Sj}}{\left \| \vec{Si} \right \| \times \left \| \vec{Sj} \right \|}
 $$
+$\vec{Si}$ y $\vec{Sj}$ son los vectores ponderados de las oraciones $Si, Sj$.
 
+*Similitud semántica:* Esta medida se encarga de las relaciones tales como sinónimos. El proceso se compone de cuatro pasos:
 
+1. Las oraciones se representan como vectores de palabras, solo se almacenan los nombres.
+2. La puntuación de similitud semántica para cada par de palabras entre dos oraciones se calcula.
+3. Se combinan los resultados sumando cada uno de las puntuaciones.
+4. La puntuación final se normaliza al rango $[0,1**$
+
+*Resolución de Co-referencia:* Se ocupa de identificar distintos nombres que hacen referencia a la misma identidad. Este algoritmo usa el framework de Stanford CoreNLP. Cuando se encuentra una co-referencia, se añade un enlace al grafo con la relación.
+
+*Relaciones de discurso:* Las relaciones entre sentencias y partes en un texto se representan por una relación de discurso. Para ello se presenta un conjunto de estructuras de relaciones de discurso basadas en las conjunciones de todo el contenido.
+
+### Algoritmo de Clustering
+
+Consta de seis pasos
 
 # Conclusiones
 

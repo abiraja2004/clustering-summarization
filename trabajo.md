@@ -38,6 +38,9 @@ La generación automática de resúmenes es una tarea que se encuadra dentro del
 El uso de métodos de agrupamiento para ayudar a la tarea de construcción de resúmenes es una opción interesante, ya que el problema es inherentemente no supervisado y existe una amplia gama de técnicas de clustering disponibles que se podrían aplicar en distintas partes del problema.
 
 # Métodos de documento único
+- K-means
+- K-means++
+- EM Clustering
 
 # Métodos multi-documento
 

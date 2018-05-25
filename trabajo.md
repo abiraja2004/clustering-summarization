@@ -44,6 +44,27 @@ El uso de métodos de agrupamiento para ayudar a la tarea de construcción de re
 
 # Métodos multi-documento
 
+_System Based on Statistics and Linguistic Treatment_ propuesto por [@ferreira2014] es un altoritmo de _clustering_ de oraciones que solventa los problemas generados por la redundancia  y diversidad de información. Este sistema asume que crear un modelo conjunto de oraciones y conexiónes genera un mejor modelo para identificar la diversidad entre ellas. Para ello se transforma el texto en un modelo gráfico que contiene cuatro tipos de relaciones entre oraciones.
+
+- Estadísticas de similitud.
+- Similitud semántica.
+- Co-referencia.
+- Relaciones en el discurso.
+
+En concreto el algoritmo propuesto por [@ferreira2014] funciona del siguiente modo:
+
+1. Convierte el texto en un modelo gráfico.
+2. Identifica las oraciones principales del grafo usando _Text Rank_.
+3. Agrupa cada sentencia en base a su similitud.
+
+Este sistema propuesto se basa en métodos estadísticos y tratamientos lingüísticos para icrementar la diversidad de información de los resúmenes y tratar con la redundancia. Las principales diferencias con los citados anteriormente son:
+
+1. Este sistema genera resúmenes genéricos y es no supervisado.
+2. Trata con problemas de redundancia y diversidad de información agrupando oraciones. Además de utilizar similitudes semánticas y sintácticas, este sistema también analiza co-referencias y relaciones del discurso.
+3. Usa un modelo gráfico basado en estadísticas de similitud y tratamiento lingüístico para representar la colección de documentos de entrada.
+4. Minimiza las co-referencias en la mayoría de los casos.
+5. Las similitudes estadísticas y semánticas, junto con operaciones lingüísticas  como resolución de co-referencias y análisis del discurso se usan para realizar el resumen.
+
 # Conclusiones
 
 - Reto: Evaluación de resúmenes?

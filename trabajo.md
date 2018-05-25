@@ -41,7 +41,10 @@ El uso de métodos de agrupamiento para ayudar a la tarea de construcción de re
 - K-means
 - K-means++
 - EM Clustering
-
+- Clustering Coefficient and Transitivity Analysis
+- CollabRank
+- Keyword Extraction from a Single Document using Word Co-occurrence Statistical Information
+- MEAD
 # Métodos multi-documento
 
 # Conclusiones

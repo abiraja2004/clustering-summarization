@@ -81,11 +81,12 @@ donde $\pi_j$ son las probabilidades a priori de cada cluster y $p(x;\theta_j)$ 
 
 Como desventaja del algoritmo, asume que el número de clusters es conocido de forma previa, aunque esto permite hacer una estimación aproximada de la longitud que tendrá el resumen. Como posible mejora, podría probarse con alguna representación de términos diferente, como BoW o n-gramas, y con algún esquema de asignación de pesos algo más complejo, como TF-IDF.
 
+## Otros algoritmos para resumen de un único documento
 
-- Clustering Coefficient and Transitivity Analysis
-- CollabRank
-- Keyword Extraction from a Single Document using Word Co-occurrence Statistical Information
-- MEAD
+Además de los ya mencionados, existen algoritmos como _CollabRank_ [@wan2008collabrank] que ponen en práctica un enfoque diferente. En concreto, CollabRank utiliza información de varios documentos para resumir un único documento, para lo que inicialmente emplea un algoritmo de clustering para obtener clusters de documentos y después emplea un algoritmo de ranking basado en grafos para extraer frases relevantes de un documento de forma colaborativa. 
+En el posterior trabajo de [@li2011single] se construye un grafo de dependencias del documento donde los nodos representan términos o frases con alta frecuencia de aparición, mientras que las aristas representan relaciones entre los mismos, y se aplica un coeficiente de clustering modificado en base al número de triángulos y tripletas que involucran a cada nodo, para medir la fuerza de las conexiones que se dan en el grafo, de esta forma, se extraen las frases más relevantes para componer el resumen. 
+Por último, mencionar el trabajo de [@matsuo2004keyword] que en 2003 usaron matrices de co-ocurrencia y clustering para extraer frases de documentos, y
+_MEAD_ , un resumidor de documentos basado en centroides propuesto por [radev2001experiments] de la Universidad de Michigan que se puede emplear para múltiples documentos o documento único.
 
 # Métodos multi-documento
 

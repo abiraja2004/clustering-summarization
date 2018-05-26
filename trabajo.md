@@ -46,13 +46,21 @@ En el trabajo propuesto por [@garcia2008text] se emplea un algoritmo K-medias pa
 1. Etapa de asignación: $Asignar(x_i,C_j)=min_{c_j}||x_i-c_j||^2$ Para cada punto $x_i$ se trata de encontrar el centroide $c_j$ más cercano a él, asignando $x_i$ al cluster $C_j$. 
 2. Etapa de actualización: $Para cada C_j, actualizar(c_j)=\frac{1}{|C_j|}\sum_{x_i \in C_j}{}x_i$ donde se actualizan los centroides de cada cluster de acuerdo a la media de los puntos dentro de dicho cluster.
 
-Una vez particionadas las frases en $k$ clusters, hay que seleccionarlas para producir un resumen del documento de una longitud deseada ($L$). Normalmente se selecciona $k$ tal que $k=\frac{L}{avg_D}$ donde $avg_D$ es la longitud media de las frases en el Documento, por tanto, seleccionando una frase de cada cluster se obtendría un resumen de longitud $L$. Para establecer en que orden se seleccionan las frases de los distintos clusters, se plantean dos estrategias:
+Una vez particionadas las frases en $k$ clusters, hay que seleccionarlas para producir un resumen del documento de una longitud deseada en palabras ($L$). Normalmente se selecciona $k$ tal que $k=\frac{L}{avg_D}$ donde $avg_D$ es la longitud media de las frases en el Documento, por tanto, seleccionando una frase de cada cluster se obtendría un resumen de longitud $L$. Para establecer en que orden se seleccionan las frases de los distintos clusters, se plantean dos estrategias:
 
 1. Ordenar los clusters en orden descendente según su tamaño, considerando el más grande el cluster de mayor importancia
 2. Considerar el cluster más denso como el de mayor importancia 
 
-- K-means++
+Por último, una vez se tiene una estrategia para decidir la importancia de los cluster, queda decidir en qué orden se seleccionarán las frases de cada cluster. Para esto se proponen tres estrategias:
+
+1. Seleccionar la frase de cada cluster que esté más cercana al centroide
+2. Ordenar las frases en función del orden en el que aparecen en el documento
+3. Aplicar TextRank a las frases del cluster y elegirlas en función de los valores de los vértices
+
+A nuestro parecer, este algoritmo presenta varios inconvenientes, como que los centroides iniciales se eligen de forma aleatoria, lo que puede condicionar la creación de clusters y el rendimiento del algoritmo. En este caso puede ser más interesante utilizar una variante como K-means++, que no tome los $k$ centroides iniciales de forma aleatoria, sino que, por ejemplo, tome las k-primeras frases como centroides. Otro posible inconveniente es que la selección de $k$ en función de $L$ y $avg_D$ no garantiza realmente que seleccionando una frase por cluster se obtenga un resumen de longitud $L$, pues si la longitud del resumen deseada puede ser 15 palabras y las frases tienen en media 5 palabras por frase, obtendríamos tres clusters, pero nada nos garantiza que las frases que escojamos para construir el resumen de dichos clusters tengan longitud exactamente igual a 5. Quizás cambiando la media por otra medida de tendencia similar o usando otra estrategia de selección de las frases de cada cluster se podría proporcionar un resumen de tamaño más adecuado al especificado. 
+
 - EM Clustering
+
 - Clustering Coefficient and Transitivity Analysis
 - CollabRank
 - Keyword Extraction from a Single Document using Word Co-occurrence Statistical Information

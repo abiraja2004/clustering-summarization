@@ -4,12 +4,12 @@ author:
   - Cristina Heredia
   - Alejandro Alcalde
   - David Charte
-date: Sistemas de recuperación de información y de recomendación, curso 2017-2018
+date: Trabajo acordado con Juan Huete Guadix. Sistemas de recuperación de información y de recomendación, curso 2017-2018
 toc: yes
 numbersections: yes
 lang: es
 bibliography: references.bib
-csl: elsevier-with-titles.csl
+csl: iso690-author-date-es.csl
 link-citations: yes
 header-includes:
   - \usepackage{hyperref}
@@ -24,20 +24,19 @@ abstract: >
 
 Un resumen es un texto producido a partir de uno o más documentos, que transmite la información más relevante y que es significativamente más corto que el texto original [@radev2002]. Así, el objetivo de la generación de resúmenes [@mani2001] es tomar una fuente de información, extraer su contenido y presentar lo más importante de forma condensada y adaptada a las necesidades de cada aplicación. La generación automática de resúmenes engloba todas las técnicas que hacen uso de la potencia de cómputo de las máquinas para analizar rápidamente diversos textos y producir resúmenes.
 
-El interés por la construcción automática de resúmenes reside en su utilidad práctica
-
+El interés por la construcción automática de resúmenes reside en su utilidad práctica para transmitir de forma rápida las ideas de un documento y en el hecho de que el aumento de volumen de información online hace muy costosa la elaboración manual de dichos resúmenes. Estos, a la vez, pueden permitir al lector decidir qué documentos (procedentes, por ejemplo, de una búsqueda de información) le interesan realmente y ahorrar tiempo. 
 
 El problema de generación de resúmenes se puede tratar mediante técnicas con diversos orígenes [@lloret2012]: estadística, análisis de grafos, lingüística, etc. Pese a que los primeros esfuerzos en construcción automática de resúmenes se dieron en los años 50 [@luhn1958], los primeros métodos de generación de resúmenes basados en aprendizaje automático no surgieron hasta final de siglo, e incluían clasificadores binarios [@kupiec1995], técnicas bayesianas [@aone1998] y modelos ocultos de Markov [@conroy2001].
 
 La generación automática de resúmenes es una tarea que se encuadra dentro del procesamiento de lenguaje natural [@liddy2001], y está conectada a otras como extracción de información, respuestas automáticas y generación de lenguaje natural. Los enfoques para la generación de resúmenes, por tanto, son diversos. El problema se puede abordar tanto mediante recuperación de información, extrayendo las frases más importantes de un documento, como desde el ámbito de lenguaje natural, generando nuevas frases que sinteticen el contenido.
 
+Una de las dificultades a la hora de realizar aprendizaje para construir resúmenes es que, generalmente, no se cuenta con resúmenes hechos por humanos contra los que entrenar un algoritmo, ni es trivial evaluar la calidad de un resumen de por sí. Así, podemos tratar de recurrir a métodos no supervisados que extraigan conocimiento de los textos sin que su entrenamiento requiera de una evaluación de este tipo. En particular, el uso de métodos de agrupamiento puede ser una opción interesante, gracias a la amplia gama de técnicas de clustering disponibles que se podrían aplicar en distintas partes del problema.
 
-- Aplicaciones reales de la generación de resúmenes
-- Qué puede hacer el clustering para generación de resúmenes
-
-El uso de métodos de agrupamiento para ayudar a la tarea de construcción de resúmenes es una opción interesante, ya que el problema es inherentemente no supervisado y existe una amplia gama de técnicas de clustering disponibles que se podrían aplicar en distintas partes del problema.
+En este trabajo realizamos una revisión de los métodos más relevantes para generación automática de resúmenes que se apoyan en el clustering. En la sección \ref{s.single} se estudian técnicas que resumen un único documento, y en la sección \ref{s.multi} se exponen algunas herramientas para resumir varios documentos. Finalmente, en la sección \ref{s.conc} se extraen unas conclusiones.
 
 # Métodos de documento único
+
+\label{s.single}
 
 ## K-means
 
@@ -59,6 +58,8 @@ Una vez particionadas las frases en $k$ clusters, hay que seleccionarlas para pr
 - MEAD
 
 # Métodos multi-documento
+
+\label{s.multi}
 
 ## _System Based on Statistics and Linguistic Treatment_
 
@@ -120,6 +121,8 @@ $\vec{Si}$ y $\vec{Sj}$ son los vectores ponderados de las oraciones $Si, Sj$.
 Consta de seis pasos
 
 # Conclusiones
+
+\label{s.conc}
 
 - Reto: Evaluación de resúmenes?
 - Nuevas vías para el uso de clustering en summarization

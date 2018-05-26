@@ -58,7 +58,15 @@ Por último, una vez se tiene una estrategia para decidir la importancia de los 
 
 A nuestro parecer, este algoritmo presenta varios inconvenientes, como que los centroides iniciales se eligen de forma aleatoria, lo que puede condicionar la creación de clusters y el rendimiento del algoritmo. En este caso puede ser más interesante utilizar una variante como K-means++, que no tome los $k$ centroides iniciales de forma aleatoria, sino que, por ejemplo, tome las k-primeras frases como centroides. Otro posible inconveniente es que la selección de $k$ en función de $L$ y $avg_D$ no garantiza realmente que seleccionando una frase por cluster se obtenga un resumen de longitud $L$, pues si la longitud del resumen deseada puede ser 15 palabras y las frases tienen en media 5 palabras por frase, obtendríamos tres clusters, pero nada nos garantiza que las frases que escojamos para construir el resumen de dichos clusters tengan longitud exactamente igual a 5. Quizás cambiando la media por otra medida de tendencia similar o usando otra estrategia de selección de las frases de cada cluster se podría proporcionar un resumen de tamaño más adecuado al especificado. 
 
-- EM Clustering
+## EM Clustering
+
+En el trabajo de [@ledeneva2011clustering] emplean el algoritmo de clustering de maximización de expectación para formar los grupos de frases similares. Previamente al EM se aplica un preprocesamiento que incluye eliminación de stopwords y un proceso de estemificación. Tras esto, se extraen  MFSs, tras lo que se aplica un proceso de asignación de pesos, en este caso, booleano. 
+Al igual que en el algoritmo descrito anteriormente, EM representa cada frase del documento como un vector de términos, que en este caso será MFSs, mientras que los clusters vienen dados por métodos probabilísticos. Por tanto, el algoritmo intenta encontrar la función de densidad de probabilidad (PDF) de la que provienen los datos. Esta función puede estimarse como una combinación lineal de tantas componentes como número de clusters haya (NC), tal que:
+${\theta}=\left\{\theta_j \forall_j=1..NC\right\}, P(x)=\sum_{j=1}^{NC} \pi_j p(x;\theta_j) con \sum_{j=1}^{NC}\pi_j=1$
+donde $\pi_j$ son las probabilidades a priori de cada cluster y $p(x;\theta_j)$ la función de densidad de la componente $j$ que puede estimarse mediante alguna distribución t-Student, Poission, Bernoulli o n-normal. Cada cluster se corresponde con las muestras pertenecientes a cada una de las densidades mezcladas.
+
+Como desventaja del algoritmo, asume que el número de clusters es conocido de forma previa, aunque esto permite hacer una estimación aproximada de la longitud que tendrá el resumen. Como posible mejora, podría probarse con alguna representación de términos diferente, como BoW o n-gramas, y con algún esquema de asignación de pesos algo más complejo, como TF-IDF.
+
 
 - Clustering Coefficient and Transitivity Analysis
 - CollabRank
@@ -138,7 +146,7 @@ Consta de seis pasos para generar los grupos de texto. La entrada es un gráfo o
 
 ### Ventajas e inconvenientes
 
-Este método proporciona la ventaja de ser no supervisado, proporcionando un sistema genérico de resúmenes de texto. Como desventajas, presenta problemas a la hora de ordenar las oraciones para encontrar las más relevantes en gropos de temas distintos. Otra desventaja es que solo funciona para Inglés.
+Este método proporciona la ventaja de ser no supervisado, proporcionando un sistema genérico de resúmenes de texto. Como desventajas, presenta problemas a la hora de ordenar las oraciones para encontrar las más relevantes en grupos de temas distintos. Otra desventaja es que solo funciona para Inglés.
 
 # Conclusiones
 

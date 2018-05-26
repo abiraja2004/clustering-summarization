@@ -42,13 +42,13 @@ En este trabajo realizamos una revisión de los métodos más relevantes para ge
 
 En el trabajo propuesto por [@garcia2008text] se emplea un algoritmo K-medias para extraer las frases más relevantes de un documento. La idea es representar las frases de un documento con distintas características que hagan posible su particionamiento en diferentes clusters, tal que después se puedan seleccionar las frases de cada cluster que extraen un mejor resumen del texto en cuanto a contenido y diversidad. Es decir, dado un conjunto de ${x_1,...,x_n}$ vectores m-dimensionales, particionar los $n$ vectores en $k$ particiones. El procedimiento del algoritmo es el siguiente:
 
-1. Etapa de asignación: $Asignar(x_i,C_j)=min_{c_j}||x_i-c_j||^2$ Para cada punto $x_i$ se trata de encontrar el centroide $c_j$ más cercano a él, asignando $x_i$ al cluster $C_j$. 
+1. Etapa de asignación: $Asignar(x_i,C_j)=min_{c_j}||x_i-c_j||^2$ Para cada punto $x_i$ se trata de encontrar el centroide $c_j$ más cercano a él, asignando $x_i$ al cluster $C_j$.
 2. Etapa de actualización: $Para cada C_j, actualizar(c_j)=\frac{1}{|C_j|}\sum_{x_i \in C_j}{}x_i$ donde se actualizan los centroides de cada cluster de acuerdo a la media de los puntos dentro de dicho cluster.
 
 Una vez particionadas las frases en $k$ clusters, hay que seleccionarlas para producir un resumen del documento de una longitud deseada ($L$). Normalmente se selecciona $k$ tal que $k=\frac{L}{avg_D}$ donde $avg_D$ es la longitud media de las frases en el Documento, por tanto, seleccionando una frase de cada cluster se obtendría un resumen de longitud $L$. Para establecer en que orden se seleccionan las frases de los distintos clusters, se plantean dos estrategias:
 
 1. Ordenar los clusters en orden descendente según su tamaño, considerando el más grande el cluster de mayor importancia
-2. Considerar el cluster más denso como el de mayor importancia 
+2. Considerar el cluster más denso como el de mayor importancia
 
 - K-means++
 - EM Clustering
@@ -118,7 +118,19 @@ $\vec{Si}$ y $\vec{Sj}$ son los vectores ponderados de las oraciones $Si, Sj$.
 
 ### Algoritmo de Clustering
 
-Consta de seis pasos
+Consta de seis pasos para generar los grupos de texto. La entrada es un gráfo obtenido en el módulo anterior junto con un fichero de configuración. Este es el pseudocódigo:
+
+- Entrada: Se recibe el gráfo y un fichero de configuración. El grafo describe el texto mediante los vértices y enlaces descritas en el módulo anterior. El ficehero de configuración debe contener los umbrales que definen la importancia de un vértice.
+- TextRank: La puntuación se calcula usando la información proporcionada por el módulo de resumen. Extrae palabras clave del documento y determina el peso de la importancia de la oración dentro de todo el documento usando el modelo basado en gráfos.
+- Selección del vértice principal: Identifica el vértice con mayor puntuación TextRank.
+- Selección de vértices líderes: Usa el umbral proporcionado por el usuario y las puntuaciones de TextRank para identificar los vértices líderes. Dichos vértices se usan para crear los clusters, cada uno será un cluster.
+- Cálculo del camino mínimo: Para cada vértice, se calcula la distancia mínima entre dicho vértice y cada vértice líder.
+- Eliminación de caminos: Elimina todos los caminos enlazando un vértice con un líder.
+- Salida: Se devuelven n grafos, donde n es el número de vértices líderes, representando n clusters.
+
+### Ventajas e inconvenientes
+
+Este método proporciona la ventaja de ser no supervisado, proporcionando un sistema genérico de resúmenes de texto. Como desventajas, presenta problemas a la hora de ordenar las oraciones para encontrar las más relevantes en gropos de temas distintos. Otra desventaja es que solo funciona para Inglés.
 
 # Conclusiones
 

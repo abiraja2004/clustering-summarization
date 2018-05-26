@@ -70,7 +70,7 @@ Por último, una vez se tiene una estrategia para decidir la importancia de los 
 2. Ordenar las frases en función del orden en el que aparecen en el documento
 3. Aplicar TextRank a las frases del cluster y elegirlas en función de los valores de los vértices
 
-A nuestro parecer, este algoritmo presenta varios inconvenientes, como que los centroides iniciales se eligen de forma aleatoria, lo que puede condicionar la creación de clusters y el rendimiento del algoritmo. En este caso puede ser más interesante utilizar una variante como K-means++, que no tome los $k$ centroides iniciales de forma aleatoria, sino que, por ejemplo, tome las k-primeras frases como centroides. Otro posible inconveniente es que la selección de $k$ en función de $L$ y $avg_D$ no garantiza realmente que seleccionando una frase por cluster se obtenga un resumen de longitud $L$, pues si la longitud del resumen deseada puede ser 15 palabras y las frases tienen en media 5 palabras por frase, obtendríamos tres clusters, pero nada nos garantiza que las frases que escojamos para construir el resumen de dichos clusters tengan longitud exactamente igual a 5. Quizás cambiando la media por otra medida de tendencia similar o usando otra estrategia de selección de las frases de cada cluster se podría proporcionar un resumen de tamaño más adecuado al especificado. 
+A nuestro parecer, este algoritmo presenta varios inconvenientes, como que los centroides iniciales se eligen de forma aleatoria, lo que puede condicionar la creación de clusters y el rendimiento del algoritmo. En este caso puede ser más interesante utilizar una variante como K-means++, que no tome los $k$ centroides iniciales de forma aleatoria, sino que, por ejemplo, tome las k-primeras frases como centroides. Otro posible inconveniente es que la selección de $k$ en función de $L$ y $avg_D$ no garantiza realmente que seleccionando una frase por cluster se obtenga un resumen de longitud $L$, pues si la longitud del resumen deseada puede ser 15 palabras y las frases tienen en media 5 palabras por frase, obtendríamos tres clusters, pero nada nos garantiza que las frases que escojamos para construir el resumen de dichos clusters tengan longitud exactamente igual a 5. Quizás cambiando la media por otra medida de tendencia similar o usando otra estrategia de selección de las frases de cada cluster se podría proporcionar un resumen de tamaño más adecuado al especificado.
 
 ## EM Clustering
 
@@ -186,11 +186,19 @@ En este sistema se usan las siguientes características:
 
 Este algoritmo usa K-means (explicado en secciones anteriores) junto a LDA para resumir los documentos en distintos clusters. LDA (Latent Dirichlet Allocation) es un modelo estadítico que intenta capturar los temas latentes en una colección de documentos. La idea básica consiste en que todos los documentos están representados por mezclas de funciones de densidad aleatorias en los temas, donde cada tema se caracteriza por una distribución sobre palabras. Un requisito importante de este método es que se debe propornionar el número de temas con antelación.
 
+## Otros algoritmos para el resumen multi-documento
+
+[@luo] se basa en análisis estadístico para encontrar la relevancia, cobertura y novedad en resúmenes multi documento. Para ello aplica *Latent Semantic Analysis* probabilístico y búsqueda de temas inducida por enlaces probabilística.
+
+[@canhasi] modelan la consulta y los documentos como un grafo para incrementar la variabilidad y diversidad del resumen centrándose en la consulta realizada. Usa términos, oraciones y documentos como conjuntos de vértices y la similitudes entre ellos como enlaces. Los clusters se crean en base a los pesos de los enlaces. Tanto [@canhasi] como [@luo] solo son útiles para resúmenes que acepten una consulta.
+
+[@gupta] combina resúmenes de un solo documento usando técnicas de clustering para generar resúmenes multi documento. PAra ello crea primero un resumen uni documento, luego agrupa oraciones usando similitudes sintáticas y semánticas para representar partes del texto que deben incluirse en el resumen. Por último, genera el resumen extrayendo una sola oración de cada cluster.
+
+[goldstein] intenta minimizar la redundancia y maximizar tanto la relevancia como la diversidad. Primero segmenta los documentos en pasajes relevantes a la consulta realizada usando la medida del coseno. En base a la proporción de compresión, se selecciona un número de oraciones. Por último, se reunen las oraciones selecciondas para construir el resulmen final.
+
 # Conclusiones
 
 \label{s.conc}
-
-
 
 - Reto: Evaluación de resúmenes?
 - Nuevas vías para el uso de clustering en summarization

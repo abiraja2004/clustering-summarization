@@ -8,6 +8,8 @@ date: Trabajo acordado con Juan Huete Guadix. Sistemas de recuperación de infor
 toc: yes
 numbersections: yes
 lang: es
+fontsize: 11pt
+graphics: yes
 bibliography: references.bib
 csl: iso690-author-date-es.csl
 link-citations: yes
@@ -32,7 +34,19 @@ La generación automática de resúmenes es una tarea que se encuadra dentro del
 
 Una de las dificultades a la hora de realizar aprendizaje para construir resúmenes es que, generalmente, no se cuenta con resúmenes hechos por humanos contra los que entrenar un algoritmo, ni es trivial evaluar la calidad de un resumen de por sí. Así, podemos tratar de recurrir a métodos no supervisados que extraigan conocimiento de los textos sin que su entrenamiento requiera de una evaluación de este tipo. En particular, el uso de métodos de agrupamiento puede ser una opción interesante, gracias a la amplia gama de técnicas de clustering disponibles que se podrían aplicar en distintas partes del problema.
 
-En este trabajo realizamos una revisión de los métodos más relevantes para generación automática de resúmenes que se apoyan en el clustering. En la sección \ref{s.single} se estudian técnicas que resumen un único documento, y en la sección \ref{s.multi} se exponen algunas herramientas para resumir varios documentos. Finalmente, en la sección \ref{s.conc} se extraen unas conclusiones.
+En este trabajo realizamos una revisión de los métodos más relevantes para generación automática de resúmenes que se apoyan en el clustering. Exploraremos para ello métodos de dos tipos:
+
+- de documento único (_single-document_): se dedican a extraer o abstraer un resumen a partir de un solo texto.
+- multi-documento (_multi-document_): se encargan de reunir la información de varios documentos y presentarla de forma condensada.
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=0.33\textwidth]{single-document.png}\quad
+\includegraphics[width=0.33\textwidth]{multi-document.png}
+\caption{\label{f.singlemulti}Generación de resúmenes de documento único (izquierda) y multi-documento (derecha)}
+\end{figure}
+
+El resto del texto se estructura como sigue. En la sección \ref{s.single} se estudian técnicas que resumen un único documento, y en la sección \ref{s.multi} se exponen algunas herramientas para resumir varios documentos. Finalmente, en la sección \ref{s.conc} se extraen unas conclusiones.
 
 # Métodos de documento único
 
@@ -123,6 +137,8 @@ Consta de seis pasos
 # Conclusiones
 
 \label{s.conc}
+
+
 
 - Reto: Evaluación de resúmenes?
 - Nuevas vías para el uso de clustering en summarization

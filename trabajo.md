@@ -26,7 +26,7 @@ abstract: >
 
 Un resumen es un texto producido a partir de uno o más documentos, que transmite la información más relevante y que es significativamente más corto que el texto original [@radev2002]. Así, el objetivo de la generación de resúmenes [@mani2001] es tomar una fuente de información, extraer su contenido y presentar lo más importante de forma condensada y adaptada a las necesidades de cada aplicación. La generación automática de resúmenes engloba todas las técnicas que hacen uso de la potencia de cómputo de las máquinas para analizar rápidamente diversos textos y producir resúmenes.
 
-El interés por la construcción automática de resúmenes reside en su utilidad práctica para transmitir de forma rápida las ideas de un documento y en el hecho de que el aumento de volumen de información online hace muy costosa la elaboración manual de dichos resúmenes. Estos, a la vez, pueden permitir al lector decidir qué documentos (procedentes, por ejemplo, de una búsqueda de información) le interesan realmente y ahorrar tiempo. 
+El interés por la construcción automática de resúmenes reside en su utilidad práctica para transmitir de forma rápida las ideas de un documento y en el hecho de que el aumento de volumen de información online hace muy costosa la elaboración manual de dichos resúmenes. Estos, a la vez, pueden permitir al lector decidir qué documentos (procedentes, por ejemplo, de una búsqueda de información) le interesan realmente y ahorrar tiempo.
 
 El problema de generación de resúmenes se puede tratar mediante técnicas con diversos orígenes [@lloret2012]: estadística, análisis de grafos, lingüística, etc. Pese a que los primeros esfuerzos en construcción automática de resúmenes se dieron en los años 50 [@luhn1958], los primeros métodos de generación de resúmenes basados en aprendizaje automático no surgieron hasta final de siglo, e incluían clasificadores binarios [@kupiec1995], técnicas bayesianas [@aone1998] y modelos ocultos de Markov [@conroy2001].
 
@@ -92,6 +92,8 @@ Este sistema propuesto por [@ferreira2014] es un altoritmo de _clustering_ de or
 - Co-referencia.
 - Relaciones en el discurso.
 
+### Metodología
+
 En concreto el algoritmo propuesto por [@ferreira2014] funciona del siguiente modo:
 
 1. Convierte el texto en un modelo gráfico.
@@ -153,6 +155,27 @@ Consta de seis pasos para generar los grupos de texto. La entrada es un gráfo o
 ### Ventajas e inconvenientes
 
 Este método proporciona la ventaja de ser no supervisado, proporcionando un sistema genérico de resúmenes de texto. Como desventajas, presenta problemas a la hora de ordenar las oraciones para encontrar las más relevantes en gropos de temas distintos. Otra desventaja es que solo funciona para Inglés.
+
+## LDA
+
+[@ijain43] muestra que los resúmenes de texto con LDA alcanzan un 72% en LDA 40% comparado con el K-medias tradicional, el cual solo alcanza un 66%.
+
+### Metodología
+
+Antes de tratar los datos, para obtener los documentos en una forma adecuada se realiza tokenización, eliminación de stopwords y stemming.
+
+En este sistema se usan las siguientes características:
+
+- Para el título $Score(S_i) = \frac{\text{\# title word in} S_i}{\text{ \# word in title}}$
+- Longitud de oración: $Score(S_i) = \frac{\text{\# word ocurring in }S_i}{\text{\# word occurring in longest sentence}}$
+- Peso del término: $Score(S_i) = \frac{\text{Sum of TF-IDF in} S_i}{\text{Max(Sum of TF-IDF)}}$
+- Posición en la oración; $Score(S_i) = 1$ para la primera y última oración, 0 para el resto.
+- Similitud de sentencia a sentencia: $Score(S_i) = \frac{\text{Sum of sentence similarity in} S_i}{\text{Max(Sum of sentence Similarity)}}$
+- Nombre propio: $Score(S_i) = \frac{\text{\# proper nouns in } S_i}{\text{Length}(S_i)}$
+- Palabra temática: $Score(S_i) = \frac{\text{\# thematic word in } S_i}{\text{Length}(S_i)}$
+- Datos numéricos: $Score(S_i) = \frac{\text{\# numerical data in} S_i}{\text{Length}(S_i)}$
+
+Este algoritmo usa K-means (explicado en secciones anteriores) junto a LDA para resumir los documentos en distintos clusters. LDA (Latent Dirichlet Allocation) es un modelo estadítico que intenta capturar los temas latentes en una colección de documentos. La idea básica consiste en que todos los documentos están representados por mezclas de funciones de densidad aleatorias en los temas, donde cada tema se caracteriza por una distribución sobre palabras. Un requisito importante de este método es que se debe propornionar el número de temas con antelación.
 
 # Conclusiones
 

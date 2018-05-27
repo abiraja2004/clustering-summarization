@@ -201,11 +201,10 @@ Este algoritmo usa K-means (explicado en secciones anteriores) junto a LDA para 
 \label{s.conc}
 
 
-En este trabajo hemos explorado algunos algoritmos relevantes en la escena de la generación automática de resúmenes utilizando clustering. Se ha comprobado cómo los métodos de agrupamiento pueden ser de gran utilidad a la hora de resumir textos pero también quedan abiertas vías para el aprovechamiento de algunas de dichas técnicas.
+En este trabajo hemos explorado algunos algoritmos relevantes en la escena de la generación automática de resúmenes utilizando clustering. Se ha comprobado cómo los métodos de agrupamiento pueden ser de gran utilidad a la hora de resumir textos pero también quedan abiertas vías para el aprovechamiento de algunas de dichas técnicas. En particular, hay pocos trabajos al respecto en resúmenes de documento único y no hemos visto aprovechadas técnicas como el clustering jerárquico en este ámbito.
 
-Uno de los retos a la hora de comparar algoritmos de construcción de resúmenes es la evaluación objetiva de la calidad de un resumen. Es necesaria más investigación en esta dirección, ...
+Uno de los retos a la hora de comparar algoritmos de construcción de resúmenes [@hahn2000] es la evaluación objetiva de la calidad de un resumen. En ocasiones es necesaria la intervención de humanos para juzgar la fluidez, la correspondencia con los temas de interés del texto o la similaridad a un resumen "ideal". Medir de esta forma es costoso en tiempo y subjetivo. Sería conveniente realizar más investigación en la dirección de medidas de evaluación computables y objetivas, incluso aunque no se llegue a una métrica única de la calidad global.
 
-- Reto: Evaluación de resúmenes?
-- Nuevas vías para el uso de clustering en summarization
+Otra línea de interés en la construcción de resúmenes es el uso de información de varios tipos: imágenes, audio y vídeo además de texto. Las técnicas de aprendizaje no supervisado podrían ser de interés para construir representaciones alternativas de estos datos; específicamente ya existen técnicas de clustering que manejan datos en dichas situaciones [@kailing2004,bickel2004].
 
 # Referencias

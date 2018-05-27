@@ -54,10 +54,10 @@ El resto del texto se estructura como sigue. En la sección \ref{s.single} se es
 
 ## K-means
 
-En el trabajo propuesto por [@garcia2008text] se emplea un algoritmo K-medias para extraer las frases más relevantes de un documento. La idea es representar las frases de un documento con distintas características que hagan posible su particionamiento en diferentes clusters, tal que después se puedan seleccionar las frases de cada cluster que extraen un mejor resumen del texto en cuanto a contenido y diversidad. Es decir, dado un conjunto de ${x_1,...,x_n}$ vectores m-dimensionales, particionar los $n$ vectores en $k$ particiones. El procedimiento del algoritmo es el siguiente:
+En el trabajo propuesto por [@garcia2008text] se emplea un algoritmo K-medias para extraer las frases más relevantes de un documento. La idea es representar las frases de un documento con distintas características que hagan posible su particionamiento en diferentes clusters, tal que después se puedan seleccionar las frases de cada cluster que extraen un mejor resumen del texto en cuanto a contenido y diversidad. Es decir, dado un conjunto de ${x_1,\dots,x_n}$ vectores m-dimensionales, particionar los $n$ vectores en $k$ particiones. El procedimiento del algoritmo es el siguiente:
 
 1. Etapa de asignación: $Asignar(x_i,C_j)=min_{c_j}||x_i-c_j||^2$ Para cada punto $x_i$ se trata de encontrar el centroide $c_j$ más cercano a él, asignando $x_i$ al cluster $C_j$.
-2. Etapa de actualización: $Para cada C_j, actualizar(c_j)=\frac{1}{|C_j|}\sum_{x_i \in C_j}{}x_i$ donde se actualizan los centroides de cada cluster de acuerdo a la media de los puntos dentro de dicho cluster.
+2. Etapa de actualización: $\text{Para cada } C_j, actualizar(c_j)=\frac{1}{|C_j|}\sum_{x_i \in C_j}x_i$ donde se actualizan los centroides de cada cluster de acuerdo a la media de los puntos dentro de dicho cluster.
 
 Una vez particionadas las frases en $k$ clusters, hay que seleccionarlas para producir un resumen del documento de una longitud deseada en palabras ($L$). Normalmente se selecciona $k$ tal que $k=\frac{L}{avg_D}$ donde $avg_D$ es la longitud media de las frases en el Documento, por tanto, seleccionando una frase de cada cluster se obtendría un resumen de longitud $L$. Para establecer en que orden se seleccionan las frases de los distintos clusters, se plantean dos estrategias:
 
@@ -74,17 +74,17 @@ A nuestro parecer, este algoritmo presenta varios inconvenientes, como que los c
 
 ## EM Clustering
 
-En el trabajo de [@ledeneva2011clustering] emplean el algoritmo de clustering de maximización de expectación para formar los grupos de frases similares. Previamente al EM se aplica un preprocesamiento que incluye eliminación de stopwords y un proceso de estemificación. Tras esto, se extraen  MFSs, tras lo que se aplica un proceso de asignación de pesos, en este caso, booleano. 
+En el trabajo de [@ledeneva2011clustering] emplean el algoritmo de clustering de maximización de expectación para formar los grupos de frases similares. Previamente al EM se aplica un preprocesamiento que incluye eliminación de stopwords y un proceso de estemificación. Tras esto, se extraen  MFSs, tras lo que se aplica un proceso de asignación de pesos, en este caso, booleano.
 Al igual que en el algoritmo descrito anteriormente, EM representa cada frase del documento como un vector de términos, que en este caso será MFSs, mientras que los clusters vienen dados por métodos probabilísticos. Por tanto, el algoritmo intenta encontrar la función de densidad de probabilidad (PDF) de la que provienen los datos. Esta función puede estimarse como una combinación lineal de tantas componentes como número de clusters haya (NC), tal que:
-${\theta}=\left\{\theta_j \forall_j=1..NC\right\}, P(x)=\sum_{j=1}^{NC} \pi_j p(x;\theta_j) con \sum_{j=1}^{NC}\pi_j=1$
+$${\theta}=\left\{\theta_j \forall_j=1\dots NC\right\}, P(x)=\sum_{j=1}^{NC} \pi_j p(x;\theta_j) \text{ con} \sum_{j=1}^{NC}\pi_j=1$$
 donde $\pi_j$ son las probabilidades a priori de cada cluster y $p(x;\theta_j)$ la función de densidad de la componente $j$ que puede estimarse mediante alguna distribución t-Student, Poission, Bernoulli o n-normal. Cada cluster se corresponde con las muestras pertenecientes a cada una de las densidades mezcladas.
 
 Como desventaja del algoritmo, asume que el número de clusters es conocido de forma previa, aunque esto permite hacer una estimación aproximada de la longitud que tendrá el resumen. Como posible mejora, podría probarse con alguna representación de términos diferente, como BoW o n-gramas, y con algún esquema de asignación de pesos algo más complejo, como TF-IDF.
 
 ## Otros algoritmos para resumen de un único documento
 
-Además de los ya mencionados, existen algoritmos como _CollabRank_ [@wan2008collabrank] que ponen en práctica un enfoque diferente. En concreto, CollabRank utiliza información de varios documentos para resumir un único documento, para lo que inicialmente emplea un algoritmo de clustering para obtener clusters de documentos y después emplea un algoritmo de ranking basado en grafos para extraer frases relevantes de un documento de forma colaborativa. 
-En el posterior trabajo de [@li2011single] se construye un grafo de dependencias del documento donde los nodos representan términos o frases con alta frecuencia de aparición, mientras que las aristas representan relaciones entre los mismos, y se aplica un coeficiente de clustering modificado en base al número de triángulos y tripletas que involucran a cada nodo, para medir la fuerza de las conexiones que se dan en el grafo, de esta forma, se extraen las frases más relevantes para componer el resumen. 
+Además de los ya mencionados, existen algoritmos como _CollabRank_ [@wan2008collabrank] que ponen en práctica un enfoque diferente. En concreto, CollabRank utiliza información de varios documentos para resumir un único documento, para lo que inicialmente emplea un algoritmo de clustering para obtener clusters de documentos y después emplea un algoritmo de ranking basado en grafos para extraer frases relevantes de un documento de forma colaborativa.
+En el posterior trabajo de [@li2011single] se construye un grafo de dependencias del documento donde los nodos representan términos o frases con alta frecuencia de aparición, mientras que las aristas representan relaciones entre los mismos, y se aplica un coeficiente de clustering modificado en base al número de triángulos y tripletas que involucran a cada nodo, para medir la fuerza de las conexiones que se dan en el grafo, de esta forma, se extraen las frases más relevantes para componer el resumen.
 Por último, mencionar el trabajo de [@matsuo2004keyword] que en 2003 usaron matrices de co-ocurrencia y clustering para extraer frases de documentos, y
 _MEAD_ , un resumidor de documentos basado en centroides propuesto por [radev2001experiments] de la Universidad de Michigan que se puede emplear para múltiples documentos o documento único.
 
@@ -94,7 +94,7 @@ _MEAD_ , un resumidor de documentos basado en centroides propuesto por [radev200
 
 ## _System Based on Statistics and Linguistic Treatment_
 
-Este sistema propuesto por [@ferreira2014] es un altoritmo de _clustering_ de oraciones que solventa los problemas generados por la redundancia y diversidad de información. Este sistema asume que crear un modelo conjunto de oraciones y conexiones genera un mejor modelo para identificar la diversidad entre ellas. Para ello se transforma el texto en un modelo gráfico que contiene cuatro tipos de relaciones entre oraciones.
+Este sistema propuesto por [@ferreira2014] es un algoritmo de _clustering_ de oraciones que solventa los problemas generados por la redundancia  y diversidad de información. Este sistema asume que crear un modelo conjunto de oraciones y conexiones genera un mejor modelo para identificar la diversidad entre ellas. Para ello se transforma el texto en un modelo gráfico que contiene cuatro tipos de relaciones entre oraciones.
 
 - Estadísticas de similitud.
 - Similitud semántica.
@@ -109,7 +109,7 @@ En concreto el algoritmo propuesto por [@ferreira2014] funciona del siguiente mo
 2. Identifica las oraciones principales del grafo usando _Text Rank_.
 3. Agrupa cada sentencia en base a su similitud.
 
-Este sistema propuesto se basa en métodos estadísticos y tratamientos lingüísticos para incrementar la diversidad de información de los resúmenes y tratar con la redundancia. Las principales diferencias con los citados anteriormente son:
+Este sistema propuesto se basa en métodos estadísticos y tratamientos lingüísticos para incrementar la diversidad de información de los resúmenes y tratar con la redundancia. Las principales diferencias con los citados en la Sección~\ref{s.multi.otros} son:
 
 1. Este sistema genera resúmenes genéricos y es no supervisado.
 2. Trata con problemas de redundancia y diversidad de información agrupando oraciones. Además de utilizar similitudes semánticas y sintácticas, este sistema también analiza co-referencias y relaciones del discurso.
@@ -184,9 +184,10 @@ En este sistema se usan las siguientes características:
 - Palabra temática: $Score(S_i) = \frac{\text{\# thematic word in } S_i}{\text{Length}(S_i)}$
 - Datos numéricos: $Score(S_i) = \frac{\text{\# numerical data in} S_i}{\text{Length}(S_i)}$
 
-Este algoritmo usa K-means (explicado en secciones anteriores) junto a LDA para resumir los documentos en distintos clusters. LDA (Latent Dirichlet Allocation) es un modelo estadítico que intenta capturar los temas latentes en una colección de documentos. La idea básica consiste en que todos los documentos están representados por mezclas de funciones de densidad aleatorias en los temas, donde cada tema se caracteriza por una distribución sobre palabras. Un requisito importante de este método es que se debe propornionar el número de temas con antelación.
+Este algoritmo usa K-means (explicado en secciones anteriores) junto a LDA para resumir los documentos en distintos clusters. LDA (Latent Dirichlet Allocation) es un modelo estadístico que intenta capturar los temas latentes en una colección de documentos. La idea básica consiste en que todos los documentos están representados por mezclas de funciones de densidad aleatorias en los temas, donde cada tema se caracteriza por una distribución sobre palabras. Un requisito importante de este método es que se debe propornionar el número de temas con antelación.
 
 ## Otros algoritmos para el resumen multi-documento
+\label{s.multi.otros}
 
 [@luo] se basa en análisis estadístico para encontrar la relevancia, cobertura y novedad en resúmenes multi documento. Para ello aplica *Latent Semantic Analysis* probabilístico y búsqueda de temas inducida por enlaces probabilística.
 

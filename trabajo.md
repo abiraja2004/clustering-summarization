@@ -26,7 +26,7 @@ abstract: >
 
 Un resumen es un texto producido a partir de uno o más documentos, que transmite la información más relevante y que es significativamente más corto que el texto original [@radev2002]. Así, el objetivo de la generación de resúmenes [@mani2001] es tomar una fuente de información, extraer su contenido y presentar lo más importante de forma condensada y adaptada a las necesidades de cada aplicación. La generación automática de resúmenes engloba todas las técnicas que hacen uso de la potencia de cómputo de las máquinas para analizar rápidamente diversos textos y producir resúmenes.
 
-El interés por la construcción automática de resúmenes reside en su utilidad práctica para transmitir de forma rápida las ideas de un documento y en el hecho de que el aumento de volumen de información online hace muy costosa la elaboración manual de dichos resúmenes. Estos, a la vez, pueden permitir al lector decidir qué documentos (procedentes, por ejemplo, de una búsqueda de información) le interesan realmente y ahorrar tiempo. 
+El interés por la construcción automática de resúmenes reside en su utilidad práctica para transmitir de forma rápida las ideas de un documento y en el hecho de que el aumento de volumen de información online hace muy costosa la elaboración manual de dichos resúmenes. Estos, a la vez, pueden permitir al lector decidir qué documentos (procedentes, por ejemplo, de una búsqueda de información) le interesan realmente y ahorrar tiempo.
 
 El problema de generación de resúmenes se puede tratar mediante técnicas con diversos orígenes [@lloret2012]: estadística, análisis de grafos, lingüística, etc. Pese a que los primeros esfuerzos en construcción automática de resúmenes se dieron en los años 50 [@luhn1958], los primeros métodos de generación de resúmenes basados en aprendizaje automático no surgieron hasta final de siglo, e incluían clasificadores binarios [@kupiec1995], técnicas bayesianas [@aone1998] y modelos ocultos de Markov [@conroy2001].
 
@@ -70,14 +70,23 @@ Por último, una vez se tiene una estrategia para decidir la importancia de los 
 2. Ordenar las frases en función del orden en el que aparecen en el documento
 3. Aplicar TextRank a las frases del cluster y elegirlas en función de los valores de los vértices
 
-A nuestro parecer, este algoritmo presenta varios inconvenientes, como que los centroides iniciales se eligen de forma aleatoria, lo que puede condicionar la creación de clusters y el rendimiento del algoritmo. En este caso puede ser más interesante utilizar una variante como K-means++, que no tome los $k$ centroides iniciales de forma aleatoria, sino que, por ejemplo, tome las k-primeras frases como centroides. Otro posible inconveniente es que la selección de $k$ en función de $L$ y $avg_D$ no garantiza realmente que seleccionando una frase por cluster se obtenga un resumen de longitud $L$, pues si la longitud del resumen deseada puede ser 15 palabras y las frases tienen en media 5 palabras por frase, obtendríamos tres clusters, pero nada nos garantiza que las frases que escojamos para construir el resumen de dichos clusters tengan longitud exactamente igual a 5. Quizás cambiando la media por otra medida de tendencia similar o usando otra estrategia de selección de las frases de cada cluster se podría proporcionar un resumen de tamaño más adecuado al especificado. 
+A nuestro parecer, este algoritmo presenta varios inconvenientes, como que los centroides iniciales se eligen de forma aleatoria, lo que puede condicionar la creación de clusters y el rendimiento del algoritmo. En este caso puede ser más interesante utilizar una variante como K-means++, que no tome los $k$ centroides iniciales de forma aleatoria, sino que, por ejemplo, tome las k-primeras frases como centroides. Otro posible inconveniente es que la selección de $k$ en función de $L$ y $avg_D$ no garantiza realmente que seleccionando una frase por cluster se obtenga un resumen de longitud $L$, pues si la longitud del resumen deseada puede ser 15 palabras y las frases tienen en media 5 palabras por frase, obtendríamos tres clusters, pero nada nos garantiza que las frases que escojamos para construir el resumen de dichos clusters tengan longitud exactamente igual a 5. Quizás cambiando la media por otra medida de tendencia similar o usando otra estrategia de selección de las frases de cada cluster se podría proporcionar un resumen de tamaño más adecuado al especificado.
 
-- EM Clustering
+## EM Clustering
 
-- Clustering Coefficient and Transitivity Analysis
-- CollabRank
-- Keyword Extraction from a Single Document using Word Co-occurrence Statistical Information
-- MEAD
+En el trabajo de [@ledeneva2011clustering] emplean el algoritmo de clustering de maximización de expectación para formar los grupos de frases similares. Previamente al EM se aplica un preprocesamiento que incluye eliminación de stopwords y un proceso de estemificación. Tras esto, se extraen  MFSs, tras lo que se aplica un proceso de asignación de pesos, en este caso, booleano. 
+Al igual que en el algoritmo descrito anteriormente, EM representa cada frase del documento como un vector de términos, que en este caso será MFSs, mientras que los clusters vienen dados por métodos probabilísticos. Por tanto, el algoritmo intenta encontrar la función de densidad de probabilidad (PDF) de la que provienen los datos. Esta función puede estimarse como una combinación lineal de tantas componentes como número de clusters haya (NC), tal que:
+${\theta}=\left\{\theta_j \forall_j=1..NC\right\}, P(x)=\sum_{j=1}^{NC} \pi_j p(x;\theta_j) con \sum_{j=1}^{NC}\pi_j=1$
+donde $\pi_j$ son las probabilidades a priori de cada cluster y $p(x;\theta_j)$ la función de densidad de la componente $j$ que puede estimarse mediante alguna distribución t-Student, Poission, Bernoulli o n-normal. Cada cluster se corresponde con las muestras pertenecientes a cada una de las densidades mezcladas.
+
+Como desventaja del algoritmo, asume que el número de clusters es conocido de forma previa, aunque esto permite hacer una estimación aproximada de la longitud que tendrá el resumen. Como posible mejora, podría probarse con alguna representación de términos diferente, como BoW o n-gramas, y con algún esquema de asignación de pesos algo más complejo, como TF-IDF.
+
+## Otros algoritmos para resumen de un único documento
+
+Además de los ya mencionados, existen algoritmos como _CollabRank_ [@wan2008collabrank] que ponen en práctica un enfoque diferente. En concreto, CollabRank utiliza información de varios documentos para resumir un único documento, para lo que inicialmente emplea un algoritmo de clustering para obtener clusters de documentos y después emplea un algoritmo de ranking basado en grafos para extraer frases relevantes de un documento de forma colaborativa. 
+En el posterior trabajo de [@li2011single] se construye un grafo de dependencias del documento donde los nodos representan términos o frases con alta frecuencia de aparición, mientras que las aristas representan relaciones entre los mismos, y se aplica un coeficiente de clustering modificado en base al número de triángulos y tripletas que involucran a cada nodo, para medir la fuerza de las conexiones que se dan en el grafo, de esta forma, se extraen las frases más relevantes para componer el resumen. 
+Por último, mencionar el trabajo de [@matsuo2004keyword] que en 2003 usaron matrices de co-ocurrencia y clustering para extraer frases de documentos, y
+_MEAD_ , un resumidor de documentos basado en centroides propuesto por [radev2001experiments] de la Universidad de Michigan que se puede emplear para múltiples documentos o documento único.
 
 # Métodos multi-documento
 
@@ -91,6 +100,8 @@ Este sistema propuesto por [@ferreira2014] es un altoritmo de _clustering_ de or
 - Similitud semántica.
 - Co-referencia.
 - Relaciones en el discurso.
+
+### Metodología
 
 En concreto el algoritmo propuesto por [@ferreira2014] funciona del siguiente modo:
 
@@ -152,11 +163,43 @@ Consta de seis pasos para generar los grupos de texto. La entrada es un gráfo o
 
 ### Ventajas e inconvenientes
 
-Este método proporciona la ventaja de ser no supervisado, proporcionando un sistema genérico de resúmenes de texto. Como desventajas, presenta problemas a la hora de ordenar las oraciones para encontrar las más relevantes en gropos de temas distintos. Otra desventaja es que solo funciona para Inglés.
+Este método proporciona la ventaja de ser no supervisado, proporcionando un sistema genérico de resúmenes de texto. Como desventajas, presenta problemas a la hora de ordenar las oraciones para encontrar las más relevantes en grupos de temas distintos. Otra desventaja es que solo funciona para Inglés.
+
+## LDA
+
+[@ijain43] muestra que los resúmenes de texto con LDA alcanzan un 72% en LDA 40% comparado con el K-medias tradicional, el cual solo alcanza un 66%.
+
+### Metodología
+
+Antes de tratar los datos, para obtener los documentos en una forma adecuada se realiza tokenización, eliminación de stopwords y stemming.
+
+En este sistema se usan las siguientes características:
+
+- Para el título $Score(S_i) = \frac{\text{\# title word in} S_i}{\text{ \# word in title}}$
+- Longitud de oración: $Score(S_i) = \frac{\text{\# word ocurring in }S_i}{\text{\# word occurring in longest sentence}}$
+- Peso del término: $Score(S_i) = \frac{\text{Sum of TF-IDF in} S_i}{\text{Max(Sum of TF-IDF)}}$
+- Posición en la oración; $Score(S_i) = 1$ para la primera y última oración, 0 para el resto.
+- Similitud de sentencia a sentencia: $Score(S_i) = \frac{\text{Sum of sentence similarity in} S_i}{\text{Max(Sum of sentence Similarity)}}$
+- Nombre propio: $Score(S_i) = \frac{\text{\# proper nouns in } S_i}{\text{Length}(S_i)}$
+- Palabra temática: $Score(S_i) = \frac{\text{\# thematic word in } S_i}{\text{Length}(S_i)}$
+- Datos numéricos: $Score(S_i) = \frac{\text{\# numerical data in} S_i}{\text{Length}(S_i)}$
+
+Este algoritmo usa K-means (explicado en secciones anteriores) junto a LDA para resumir los documentos en distintos clusters. LDA (Latent Dirichlet Allocation) es un modelo estadítico que intenta capturar los temas latentes en una colección de documentos. La idea básica consiste en que todos los documentos están representados por mezclas de funciones de densidad aleatorias en los temas, donde cada tema se caracteriza por una distribución sobre palabras. Un requisito importante de este método es que se debe propornionar el número de temas con antelación.
+
+## Otros algoritmos para el resumen multi-documento
+
+[@luo] se basa en análisis estadístico para encontrar la relevancia, cobertura y novedad en resúmenes multi documento. Para ello aplica *Latent Semantic Analysis* probabilístico y búsqueda de temas inducida por enlaces probabilística.
+
+[@canhasi] modelan la consulta y los documentos como un grafo para incrementar la variabilidad y diversidad del resumen centrándose en la consulta realizada. Usa términos, oraciones y documentos como conjuntos de vértices y la similitudes entre ellos como enlaces. Los clusters se crean en base a los pesos de los enlaces. Tanto [@canhasi] como [@luo] solo son útiles para resúmenes que acepten una consulta.
+
+[@gupta] combina resúmenes de un solo documento usando técnicas de clustering para generar resúmenes multi documento. PAra ello crea primero un resumen uni documento, luego agrupa oraciones usando similitudes sintáticas y semánticas para representar partes del texto que deben incluirse en el resumen. Por último, genera el resumen extrayendo una sola oración de cada cluster.
+
+[goldstein] intenta minimizar la redundancia y maximizar tanto la relevancia como la diversidad. Primero segmenta los documentos en pasajes relevantes a la consulta realizada usando la medida del coseno. En base a la proporción de compresión, se selecciona un número de oraciones. Por último, se reunen las oraciones selecciondas para construir el resulmen final.
 
 # Conclusiones
 
 \label{s.conc}
+
 
 En este trabajo hemos explorado algunos algoritmos relevantes en la escena de la generación automática de resúmenes utilizando clustering. Se ha comprobado cómo los métodos de agrupamiento pueden ser de gran utilidad a la hora de resumir textos pero también quedan abiertas vías para el aprovechamiento de algunas de dichas técnicas.
 

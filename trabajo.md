@@ -143,7 +143,7 @@ $\vec{Si}$ y $\vec{Sj}$ son los vectores ponderados de las oraciones $Si, Sj$.
 1. Las oraciones se representan como vectores de palabras, solo se almacenan los nombres.
 2. La puntuación de similitud semántica para cada par de palabras entre dos oraciones se calcula.
 3. Se combinan los resultados sumando cada uno de las puntuaciones.
-4. La puntuación final se normaliza al rango $[0,1**$
+4. La puntuación final se normaliza al rango $[0,1]$
 
 *Resolución de Co-referencia:* Se ocupa de identificar distintos nombres que hacen referencia a la misma identidad. Este algoritmo usa el framework de Stanford CoreNLP. Cuando se encuentra una co-referencia, se añade un enlace al grafo con la relación.
 
@@ -153,7 +153,7 @@ $\vec{Si}$ y $\vec{Sj}$ son los vectores ponderados de las oraciones $Si, Sj$.
 
 Consta de seis pasos para generar los grupos de texto. La entrada es un gráfo obtenido en el módulo anterior junto con un fichero de configuración. Este es el pseudocódigo:
 
-- Entrada: Se recibe el gráfo y un fichero de configuración. El grafo describe el texto mediante los vértices y enlaces descritas en el módulo anterior. El ficehero de configuración debe contener los umbrales que definen la importancia de un vértice.
+- Entrada: Se recibe el grafo y un fichero de configuración. El grafo describe el texto mediante los vértices y enlaces descritos en el módulo anterior. El fichero de configuración debe contener los umbrales que definen la importancia de un vértice.
 - TextRank: La puntuación se calcula usando la información proporcionada por el módulo de resumen. Extrae palabras clave del documento y determina el peso de la importancia de la oración dentro de todo el documento usando el modelo basado en gráfos.
 - Selección del vértice principal: Identifica el vértice con mayor puntuación TextRank.
 - Selección de vértices líderes: Usa el umbral proporcionado por el usuario y las puntuaciones de TextRank para identificar los vértices líderes. Dichos vértices se usan para crear los clusters, cada uno será un cluster.
@@ -178,13 +178,13 @@ En este sistema se usan las siguientes características:
 - Para el título $Score(S_i) = \frac{\text{\# title word in} S_i}{\text{ \# word in title}}$
 - Longitud de oración: $Score(S_i) = \frac{\text{\# word ocurring in }S_i}{\text{\# word occurring in longest sentence}}$
 - Peso del término: $Score(S_i) = \frac{\text{Sum of TF-IDF in} S_i}{\text{Max(Sum of TF-IDF)}}$
-- Posición en la oración; $Score(S_i) = 1$ para la primera y última oración, 0 para el resto.
+- Posición en la oración: $Score(S_i) = 1$ para la primera y última oración, 0 para el resto.
 - Similitud de sentencia a sentencia: $Score(S_i) = \frac{\text{Sum of sentence similarity in} S_i}{\text{Max(Sum of sentence Similarity)}}$
 - Nombre propio: $Score(S_i) = \frac{\text{\# proper nouns in } S_i}{\text{Length}(S_i)}$
 - Palabra temática: $Score(S_i) = \frac{\text{\# thematic word in } S_i}{\text{Length}(S_i)}$
 - Datos numéricos: $Score(S_i) = \frac{\text{\# numerical data in} S_i}{\text{Length}(S_i)}$
 
-Este algoritmo usa K-means (explicado en secciones anteriores) junto a LDA para resumir los documentos en distintos clusters. LDA (Latent Dirichlet Allocation) es un modelo estadítico que intenta capturar los temas latentes en una colección de documentos. La idea básica consiste en que todos los documentos están representados por mezclas de funciones de densidad aleatorias en los temas, donde cada tema se caracteriza por una distribución sobre palabras. Un requisito importante de este método es que se debe propornionar el número de temas con antelación.
+Este algoritmo usa K-means (explicado en secciones anteriores) junto a LDA para resumir los documentos en distintos clusters. LDA (Latent Dirichlet Allocation) es un modelo estadítico que intenta capturar los temas latentes en una colección de documentos. La idea básica consiste en que todos los documentos están representados por mezclas de funciones de densidad aleatorias en los temas, donde cada tema se caracteriza por una distribución sobre palabras. Un requisito importante de este método es que se debe proporcionar el número de temas con antelación.
 
 ## Otros algoritmos para el resumen multi-documento
 

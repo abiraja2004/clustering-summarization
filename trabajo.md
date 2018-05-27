@@ -61,8 +61,8 @@ En el trabajo propuesto por [@garcia2008text] se emplea un algoritmo K-medias pa
 
 Una vez particionadas las frases en $k$ clusters, hay que seleccionarlas para producir un resumen del documento de una longitud deseada en palabras ($L$). Normalmente se selecciona $k$ tal que $k=\frac{L}{avg_D}$ donde $avg_D$ es la longitud media de las frases en el Documento, por tanto, seleccionando una frase de cada cluster se obtendría un resumen de longitud $L$. Para establecer en que orden se seleccionan las frases de los distintos clusters, se plantean dos estrategias:
 
-1. Ordenar los clusters en orden descendente según su tamaño, considerando el más grande el cluster de mayor importancia
-2. Considerar el cluster más denso como el de mayor importancia
+1. Ordenar los clusters en orden descendente según su tamaño, considerando el más grande el cluster de mayor importancia debido a que concentraría a palabras que se repiten en varias frases del documento
+2. Considerar el cluster más denso como el de mayor importancia 
 
 Por último, una vez se tiene una estrategia para decidir la importancia de los cluster, queda decidir en qué orden se seleccionarán las frases de cada cluster. Para esto se proponen tres estrategias:
 
@@ -94,7 +94,7 @@ _MEAD_ , un resumidor de documentos basado en centroides propuesto por [radev200
 
 ## _System Based on Statistics and Linguistic Treatment_
 
-Este sistema propuesto por [@ferreira2014] es un algoritmo de _clustering_ de oraciones que solventa los problemas generados por la redundancia  y diversidad de información. Este sistema asume que crear un modelo conjunto de oraciones y conexiónes genera un mejor modelo para identificar la diversidad entre ellas. Para ello se transforma el texto en un modelo gráfico que contiene cuatro tipos de relaciones entre oraciones.
+Este sistema propuesto por [@ferreira2014] es un algoritmo de _clustering_ de oraciones que solventa los problemas generados por la redundancia  y diversidad de información. Este sistema asume que crear un modelo conjunto de oraciones y conexiones genera un mejor modelo para identificar la diversidad entre ellas. Para ello se transforma el texto en un modelo gráfico que contiene cuatro tipos de relaciones entre oraciones.
 
 - Estadísticas de similitud.
 - Similitud semántica.
@@ -109,13 +109,13 @@ En concreto el algoritmo propuesto por [@ferreira2014] funciona del siguiente mo
 2. Identifica las oraciones principales del grafo usando _Text Rank_.
 3. Agrupa cada sentencia en base a su similitud.
 
-    Este sistema propuesto se basa en métodos estadísticos y tratamientos lingüísticos para icrementar la diversidad de información de los resúmenes y tratar con la redundancia. Las principales diferencias con los citados en la Sección~\ref{s.multi.otros} son:
+Este sistema propuesto se basa en métodos estadísticos y tratamientos lingüísticos para incrementar la diversidad de información de los resúmenes y tratar con la redundancia. Las principales diferencias con los citados en la Sección~\ref{s.multi.otros} son:
 
 1. Este sistema genera resúmenes genéricos y es no supervisado.
 2. Trata con problemas de redundancia y diversidad de información agrupando oraciones. Además de utilizar similitudes semánticas y sintácticas, este sistema también analiza co-referencias y relaciones del discurso.
 3. Usa un modelo gráfico basado en estadísticas de similitud y tratamiento lingüístico para representar la colección de documentos de entrada.
 4. Minimiza las co-referencias en la mayoría de los casos.
-5. Las similitudes estadísticas y semánticas, junto con operaciones lingüísticas  como resolución de co-referencias y análisis del discurso se usan para realizar el resumen.
+5. Las similitudes estadísticas y semánticas, junto con operaciones lingüísticas como resolución de co-referencias y análisis del discurso se usan para realizar el resumen.
 
 El sistema en su conjunto funciona del siguiente modo:
 

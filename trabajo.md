@@ -62,7 +62,7 @@ En el trabajo propuesto por [@garcia2008text] se emplea un algoritmo K-medias pa
 Una vez particionadas las frases en $k$ clusters, hay que seleccionarlas para producir un resumen del documento de una longitud deseada en palabras ($L$). Normalmente se selecciona $k$ tal que $k=\frac{L}{avg_D}$ donde $avg_D$ es la longitud media de las frases en el Documento, por tanto, seleccionando una frase de cada cluster se obtendría un resumen de longitud $L$. Para establecer en que orden se seleccionan las frases de los distintos clusters, se plantean dos estrategias:
 
 1. Ordenar los clusters en orden descendente según su tamaño, considerando el más grande el cluster de mayor importancia debido a que concentraría a palabras que se repiten en varias frases del documento
-2. Considerar el cluster más denso como el de mayor importancia 
+2. Considerar el cluster más denso como el de mayor importancia
 
 Por último, una vez se tiene una estrategia para decidir la importancia de los cluster, queda decidir en qué orden se seleccionarán las frases de cada cluster. Para esto se proponen tres estrategias:
 
@@ -195,7 +195,7 @@ Este algoritmo usa K-means (explicado en secciones anteriores) junto a LDA para 
 
 [@gupta] combina resúmenes de un solo documento usando técnicas de clustering para generar resúmenes multi documento. PAra ello crea primero un resumen uni documento, luego agrupa oraciones usando similitudes sintáticas y semánticas para representar partes del texto que deben incluirse en el resumen. Por último, genera el resumen extrayendo una sola oración de cada cluster.
 
-[goldstein] intenta minimizar la redundancia y maximizar tanto la relevancia como la diversidad. Primero segmenta los documentos en pasajes relevantes a la consulta realizada usando la medida del coseno. En base a la proporción de compresión, se selecciona un número de oraciones. Por último, se reunen las oraciones selecciondas para construir el resulmen final.
+[@goldstein] intenta minimizar la redundancia y maximizar tanto la relevancia como la diversidad. Primero segmenta los documentos en pasajes relevantes a la consulta realizada usando la medida del coseno. En base a la proporción de compresión, se selecciona un número de oraciones. Por último, se reunen las oraciones selecciondas para construir el resulmen final.
 
 # Conclusiones
 

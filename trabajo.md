@@ -113,7 +113,7 @@ Este sistema propuesto por @ferreira2014 es un algoritmo de _clustering_ de orac
 - Co-referencia.
 - Relaciones en el discurso.
 
-### Metodología
+\subsubsection*{Metodología}
 
 En concreto el algoritmo propuesto por @ferreira2014 funciona del siguiente modo:
 
@@ -136,11 +136,11 @@ El sistema en su conjunto se describe con detalle en los siguientes apartados, p
 3. Puntúa cada oración para seleccionar las mejores y crear cada _cluster_.
 4. Selecciona las oraciones principales de los _clusters_. El número de oraciones seleccionadas depende de la proporción de resumen solicitada por el usuario.
 
-### Método de puntuación de oraciones
+\subsubsection*{Método de puntuación de oraciones}
 
 En este módulo se usan dos servicios de puntuación de oraciones. El primero es la **frecuencia de palabra**, que se efectúa en tres pasos: (i) elimina todas las _stopwords_, (ii) cuenta las ocurrencias de cada palabra en el texto y (iii) para cada oración, añade la puntuación de frecuencias de palabra. El segundo es **TF-IDF**, que sigue este proceso: (i) elimina las *stopwords*, (ii) calcula el TF-IDF de cada palabra y (iii) para cada oración, suma la puntuación TF-IDF de cada palabra.
 
-### Agrupamiento de oraciones
+\subsubsection*{Agrupamiento de oraciones}
 
 En este paso se crea un modelo gráfico de cuatro dimensiones. Cada sentencia del documento se representa como un vértice y cuatro tipos de enlaces, que se describen a continuación.
 
@@ -161,7 +161,7 @@ $\vec{Si}$ y $\vec{Sj}$ son los vectores ponderados de las oraciones $Si, Sj$.
 
 \paragraph*{Relaciones de discurso} Las relaciones entre sentencias y partes en un texto se representan por una relación de discurso. Para ello se presenta un conjunto de estructuras de relaciones de discurso basadas en las conjunciones de todo el contenido.
 
-### Algoritmo de Clustering
+\subsubsection*{Algoritmo de Clustering}
 
 Consta de seis pasos para generar los grupos de texto. La entrada es un grafo obtenido en el módulo anterior junto con un fichero de configuración. Este es el pseudocódigo:
 
@@ -173,7 +173,7 @@ Consta de seis pasos para generar los grupos de texto. La entrada es un grafo ob
 1. Eliminación de caminos: Elimina todos los caminos enlazando un vértice con un líder.
 1. Salida: Se devuelven $n$ grafos, tantos como vértices líderes, representando $n$ clusters.
 
-### Ventajas e inconvenientes
+\subsubsection*{Ventajas e inconvenientes}
 
 Este método proporciona la ventaja de ser no supervisado, proporcionando un sistema genérico de resúmenes de texto. Como desventajas, presenta problemas a la hora de ordenar las oraciones para encontrar las más relevantes en grupos de temas distintos. Otra desventaja es que solo funciona para inglés.
 
@@ -182,6 +182,16 @@ Este método proporciona la ventaja de ser no supervisado, proporcionando un sis
 Una propuesta de @kar2015 es utilizar un modelo generativo denominado _Latent Dirichlet Allocation_ (LDA) para resumir cambios en documentos, es decir, las diferencias entre distintas versiones de un mismo documento a lo largo del tiempo.
 
 LDA es un modelo estadístico que intenta capturar las características latentes en una colección de observaciones, de forma que se pueda explicar la similaridad entre ellas mediante dichas características no observadas. Aplicadas a documentos, las características latentes pueden representar temas comunes en los mismos. Un requisito importante de este método es que se debe proporcionar el número de temas por adelantado.
+
+El trabajo de @kar2015 es un sistema con una arquitectura compleja que toma como entrada las diferencias (o _diffs_) entre revisiones sucesivas de documentos. Se asignan puntuaciones a cada término y se acumulan estas para calcular la puntuación de cada frase (como la puntuación media). A la hora de puntuar términos se proponen tres enfoques:
+
+- Utilizar la función de scoring de @jatowt, usada como baseline en el artículo y denominada BTTS.
+- Puntuar más alto las palabras que se han insertado tras un cambio, y más bajo aquellas que se hayan eliminado. Los autores denominan TTS a esta puntuación.
+- Generar las puntuaciones a partir del modelo LDA: se extraen una serie de características de los _diffs_ que se proporcionan a LDA para conseguir un conjunto de 2 temas (se consideran únicamente revisiones con un solo cambio significativo), que se asocian con cada cambio importante en el documento. Los términos involucrados en cada tema se extraen con cierta probabilidad, que se usa como puntuación. Se denomina a este enfoque LTTS.
+
+Para puntuar las frases hay un cuarto enfoque que combina TTS y LTTS, mediante una combinación convexa de las puntuaciones obtenidas por cada enfoque. Para cada sistema de puntuación, las frases mejor puntuadas se extraen y combinan en un candidato a resumen.
+
+La experimentación llevada a cabo por los autores consiste en la aplicación de los 4 enfoques al conjunto de revisiones de 49 artículos de Wikipedia en varios períodos de tiempo. Para la evaluación utilizan las métricas de ROUGE [@lin2003] que requieren comparar con resúmenes creados por humanos. En general, el modelo con mejor calidad resulta ser el que usa la puntuación LTTS.
 
 @ijain43 utilizan LDA para clustering de documentos y descubren que se encuentran mejoras en la calidad de los clusters si los documentos se proporcionan resumidos automáticamente al algoritmo de clustering.
 

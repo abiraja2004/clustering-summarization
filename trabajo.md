@@ -34,7 +34,7 @@ La generación automática de resúmenes es una tarea que se encuadra dentro del
 
 Una de las dificultades a la hora de realizar aprendizaje para construir resúmenes es que, generalmente, no se cuenta con resúmenes hechos por humanos contra los que entrenar un algoritmo, ni es trivial evaluar la calidad de un resumen de por sí. Así, podemos tratar de recurrir a métodos no supervisados que extraigan conocimiento de los textos sin que su entrenamiento requiera de una evaluación de este tipo. En particular, el uso de métodos de agrupamiento puede ser una opción interesante, gracias a la amplia gama de técnicas de clustering disponibles que se podrían aplicar en distintas partes del problema.
 
-En este trabajo realizamos una revisión de los métodos más relevantes para generación automática de resúmenes que se apoyan en el clustering. Exploraremos para ello métodos de dos tipos:
+En este trabajo realizamos una revisión de los métodos más relevantes para generación automática de resúmenes que se apoyan en el clustering. Exploraremos para ello métodos de dos tipos, como se ilustra en la figura \ref{f.singlemulti}:
 
 - de documento único (_single-document_): se dedican a extraer o abstraer un resumen a partir de un solo texto.
 - multi-documento (_multi-document_): se encargan de reunir la información de varios documentos y presentarla de forma condensada.
@@ -158,7 +158,9 @@ Este método proporciona la ventaja de ser no supervisado, proporcionando un sis
 
 \label{s.conc}
 
+En este trabajo hemos explorado algunos algoritmos relevantes en la escena de la generación automática de resúmenes utilizando clustering. Se ha comprobado cómo los métodos de agrupamiento pueden ser de gran utilidad a la hora de resumir textos pero también quedan abiertas vías para el aprovechamiento de algunas de dichas técnicas.
 
+Uno de los retos a la hora de comparar algoritmos de construcción de resúmenes es la evaluación objetiva de la calidad de un resumen. Es necesaria más investigación en esta dirección, ...
 
 - Reto: Evaluación de resúmenes?
 - Nuevas vías para el uso de clustering en summarization

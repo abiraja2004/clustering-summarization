@@ -1,10 +1,10 @@
 ---
-title: Agrupamiento para generación automática de resúmenes
+title: Revisión del uso de técnicas de agrupamiento para la generación automática de resúmenes
 author:
   - Cristina Heredia
   - Alejandro Alcalde
   - David Charte
-date: Trabajo acordado con Juan Huete Guadix. Sistemas de recuperación de información y de recomendación, curso 2017-2018
+date: "Trabajo acordado con Juan Huete Guadix. Sistemas de recuperación de información y de recomendación, curso 2017-2018"
 toc: yes
 numbersections: yes
 lang: es
@@ -19,9 +19,11 @@ subparagraph: yes
 abstract: >
   En este trabajo se realiza una revisión de los métodos más relevantes que
   utilizan el agrupamiento no supervisado para tareas de generación de resúmenes.
+  Describimos el problema de generación de resúmenes y el origen de su tratamiento
+  de forma automática.
   Distinguimos dos formas de construir resúmenes: a partir de un documento y de
   varios. Analizamos algoritmos basados en técnicas conocidas de
-  clustering documental, como k-medias y Latent Dirichlet Allocation.
+  clustering documental, como k-means y Latent Dirichlet Allocation.
   Encontramos que el clustering está más presente en los métodos del
   segundo tipo, y el uso más común de métodos de agrupamiento en la
   tarea es la agrupación de oraciones para extraer de entre ellas frases

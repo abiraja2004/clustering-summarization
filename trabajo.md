@@ -15,9 +15,17 @@ csl: iso690-author-date-es.csl
 link-citations: yes
 header-includes:
   - \usepackage{hyperref}
+subparagraph: yes
 abstract: >
   En este trabajo se realiza una revisión de los métodos más relevantes que
-  utilizan el agrupamiento no supervisado para tareas de generación de resúmenes. ======AMPLIAR======
+  utilizan el agrupamiento no supervisado para tareas de generación de resúmenes.
+  Distinguimos dos formas de construir resúmenes: a partir de un documento y de
+  varios. Analizamos algoritmos basados en técnicas conocidas de
+  clustering documental, como k-medias y Latent Dirichlet Allocation.
+  Encontramos que el clustering está más presente en los métodos del
+  segundo tipo, y el uso más común de métodos de agrupamiento en la
+  tarea es la agrupación de oraciones para extraer de entre ellas frases
+  representativas que formen un resumen.
 ---
 
 \clearpage
@@ -98,7 +106,7 @@ Por último, es preciso mencionar el trabajo de @matsuo2004keyword que en 2003 u
 
 ## _System Based on Statistics and Linguistic Treatment_
 
-Este sistema propuesto por [@ferreira2014] es un altoritmo de _clustering_ de oraciones que solventa los problemas generados por la redundancia y diversidad de información. Este sistema asume que crear un modelo conjunto de oraciones y conexiones genera un mejor modelo para identificar la diversidad entre ellas. Para ello se transforma el texto en un modelo gráfico que contiene cuatro tipos de relaciones entre oraciones.
+Este sistema propuesto por @ferreira2014 es un algoritmo de _clustering_ de oraciones que solventa los problemas generados por la redundancia y diversidad de información. Este sistema se basa en la idea de que crear un modelo conjunto de oraciones y conexiones genera un mejor modelo para identificar la diversidad entre ellas. Para ello se transforma el texto en un modelo gráfico que contiene cuatro tipos de relaciones entre oraciones:
 
 - Estadísticas de similitud.
 - Similitud semántica.
@@ -107,7 +115,7 @@ Este sistema propuesto por [@ferreira2014] es un altoritmo de _clustering_ de or
 
 ### Metodología
 
-En concreto el algoritmo propuesto por [@ferreira2014] funciona del siguiente modo:
+En concreto el algoritmo propuesto por @ferreira2014 funciona del siguiente modo:
 
 1. Convierte el texto en un modelo gráfico.
 2. Identifica las oraciones principales del grafo usando _Text Rank_.
@@ -115,13 +123,13 @@ En concreto el algoritmo propuesto por [@ferreira2014] funciona del siguiente mo
 
 Este sistema propuesto se basa en métodos estadísticos y tratamientos lingüísticos para incrementar la diversidad de información de los resúmenes y tratar con la redundancia. Las principales diferencias con los citados anteriormente son:
 
-1. Este sistema genera resúmenes genéricos y es no supervisado.
-2. Trata con problemas de redundancia y diversidad de información agrupando oraciones. Además de utilizar similitudes semánticas y sintácticas, este sistema también analiza co-referencias y relaciones del discurso.
-3. Usa un modelo gráfico basado en estadísticas de similitud y tratamiento lingüístico para representar la colección de documentos de entrada.
-4. Minimiza las co-referencias en la mayoría de los casos.
-5. Las similitudes estadísticas y semánticas, junto con operaciones lingüísticas como resolución de co-referencias y análisis del discurso se usan para realizar el resumen.
+- Este sistema genera resúmenes genéricos y es no supervisado.
+- Trata con problemas de redundancia y diversidad de información agrupando oraciones. Además de utilizar similitudes semánticas y sintácticas, este sistema también analiza co-referencias y relaciones del discurso.
+- Usa un modelo gráfico basado en estadísticas de similitud y tratamiento lingüístico para representar la colección de documentos de entrada.
+- Minimiza las co-referencias en la mayoría de los casos.
+- Las similitudes estadísticas y semánticas, junto con operaciones lingüísticas como resolución de co-referencias y análisis del discurso se usan para realizar el resumen.
 
-El sistema en su conjunto funciona del siguiente modo:
+El sistema en su conjunto se describe con detalle en los siguientes apartados, pero a grandes rasgos funciona como sigue:
 
 1. Abre todos los documentos de la colección de entrada y los trata como un único documento.
 2. Agrupa oraciones para encontrar sus relaciones con un tema específico.
@@ -130,81 +138,67 @@ El sistema en su conjunto funciona del siguiente modo:
 
 ### Método de puntuación de oraciones
 
-En este módulo se usan dos servicios de puntuación de oraciones. El primero es la **frecuencia de palabra** -- se efectúa en tres pasos: (i) elimina todas las _stopwords_, (ii) Cuenta las ocurrencias de cada palabra en el texto. (iii) Para cada oración, añade la puntuación de frecuencias de palabra. **TF/IDF** -- se compone de (i) elimina las *stopwords* (ii) calcula el **TF/IDF** de cada palabra. (iii) Para cada oración, suma la puntuación **TF/IDF** de cada palabra.
+En este módulo se usan dos servicios de puntuación de oraciones. El primero es la **frecuencia de palabra**, que se efectúa en tres pasos: (i) elimina todas las _stopwords_, (ii) cuenta las ocurrencias de cada palabra en el texto y (iii) para cada oración, añade la puntuación de frecuencias de palabra. El segundo es **TF-IDF**, que sigue este proceso: (i) elimina las *stopwords*, (ii) calcula el TF-IDF de cada palabra y (iii) para cada oración, suma la puntuación TF-IDF de cada palabra.
 
 ### Agrupamiento de oraciones
 
-En este paso se crea un modelo gráfico de cuatro dimensiones. Cada sentencia del documento se representa como un vértice y cuatro tipos de enlaces:
+En este paso se crea un modelo gráfico de cuatro dimensiones. Cada sentencia del documento se representa como un vértice y cuatro tipos de enlaces, que se describen a continuación.
 
-*Similitud estadística:* Este método mide el solapamiento del contenido entre un par de oraciones. Si supera un límite proporcionado por el usario, el enlace entre dicho par se crea. Para medir la similitud se usa el coseno. Crea un modelo de  bolsa de palabras que representa cada oración como un vector N-Dimensional. El vector encapsula la palabra y su frecuencia en el texto. La similitud entre dos oraciones se define como el coseno entre los dos vectores correspondientes. Esta medida viene dada por:
+\paragraph*{Similitud estadística} Este método mide el solapamiento del contenido entre un par de oraciones. Si supera un límite proporcionado por el usario, el enlace entre dicho par se crea. Para medir la similitud se usa el coseno. Crea un modelo de  bolsa de palabras que representa cada oración como un vector $N$-dimensional. El vector encapsula la palabra y su frecuencia en el texto. La similitud entre dos oraciones se define como el coseno entre los dos vectores correspondientes. Esta medida viene dada por:
 $$
-\text{Wsim}(Si, Sj) = \frac{\vec{Si}\vec{Sj}}{\left \| \vec{Si} \right \| \times \left \| \vec{Sj} \right \|}
+\text{Wsim}(Si, Sj) = \frac{\vec{Si}\vec{Sj}}{\left \lVert \vec{Si} \right \rVert \times \left \lVert \vec{Sj} \right \rVert}
 $$
 $\vec{Si}$ y $\vec{Sj}$ son los vectores ponderados de las oraciones $Si, Sj$.
 
-*Similitud semántica:* Esta medida se encarga de las relaciones tales como sinónimos. El proceso se compone de cuatro pasos:
+\paragraph*{Similitud semántica} Esta medida se encarga de las relaciones tales como sinónimos. El proceso se compone de cuatro pasos:
 
 1. Las oraciones se representan como vectores de palabras, solo se almacenan los nombres.
 2. La puntuación de similitud semántica para cada par de palabras entre dos oraciones se calcula.
 3. Se combinan los resultados sumando cada uno de las puntuaciones.
-4. La puntuación final se normaliza al rango $[0,1**$
+4. La puntuación final se normaliza al rango $[0,1]$
 
-*Resolución de Co-referencia:* Se ocupa de identificar distintos nombres que hacen referencia a la misma identidad. Este algoritmo usa el framework de Stanford CoreNLP. Cuando se encuentra una co-referencia, se añade un enlace al grafo con la relación.
+\paragraph*{Resolución de Co-referencia} Se ocupa de identificar distintos nombres que hacen referencia a la misma identidad. Este algoritmo usa el framework de Stanford CoreNLP. Cuando se encuentra una co-referencia, se añade un enlace al grafo con la relación.
 
-*Relaciones de discurso:* Las relaciones entre sentencias y partes en un texto se representan por una relación de discurso. Para ello se presenta un conjunto de estructuras de relaciones de discurso basadas en las conjunciones de todo el contenido.
+\paragraph*{Relaciones de discurso} Las relaciones entre sentencias y partes en un texto se representan por una relación de discurso. Para ello se presenta un conjunto de estructuras de relaciones de discurso basadas en las conjunciones de todo el contenido.
 
 ### Algoritmo de Clustering
 
-Consta de seis pasos para generar los grupos de texto. La entrada es un gráfo obtenido en el módulo anterior junto con un fichero de configuración. Este es el pseudocódigo:
+Consta de seis pasos para generar los grupos de texto. La entrada es un grafo obtenido en el módulo anterior junto con un fichero de configuración. Este es el pseudocódigo:
 
-- Entrada: Se recibe el gráfo y un fichero de configuración. El grafo describe el texto mediante los vértices y enlaces descritas en el módulo anterior. El ficehero de configuración debe contener los umbrales que definen la importancia de un vértice.
-- TextRank: La puntuación se calcula usando la información proporcionada por el módulo de resumen. Extrae palabras clave del documento y determina el peso de la importancia de la oración dentro de todo el documento usando el modelo basado en gráfos.
-- Selección del vértice principal: Identifica el vértice con mayor puntuación TextRank.
-- Selección de vértices líderes: Usa el umbral proporcionado por el usuario y las puntuaciones de TextRank para identificar los vértices líderes. Dichos vértices se usan para crear los clusters, cada uno será un cluster.
-- Cálculo del camino mínimo: Para cada vértice, se calcula la distancia mínima entre dicho vértice y cada vértice líder.
-- Eliminación de caminos: Elimina todos los caminos enlazando un vértice con un líder.
-- Salida: Se devuelven n grafos, donde n es el número de vértices líderes, representando n clusters.
+1. Entrada: Se recibe el grafo y un fichero de configuración. El grafo describe el texto mediante los vértices y enlaces descritas en el módulo anterior. El fichero de configuración debe contener los umbrales que definen la importancia de un vértice.
+1. TextRank: La puntuación se calcula usando la información proporcionada por el módulo de resumen. Extrae palabras clave del documento y determina el peso de la importancia de la oración dentro de todo el documento usando el modelo basado en grafos.
+1. Selección del vértice principal: Identifica el vértice con mayor puntuación _TextRank_.
+1. Selección de vértices líderes: Usa el umbral proporcionado por el usuario y las puntuaciones de _TextRank_ para identificar los vértices líderes. Dichos vértices se usan para crear los clusters, cada uno será un cluster.
+1. Cálculo del camino mínimo: Para cada vértice, se calcula la distancia mínima entre dicho vértice y cada vértice líder.
+1. Eliminación de caminos: Elimina todos los caminos enlazando un vértice con un líder.
+1. Salida: Se devuelven $n$ grafos, tantos como vértices líderes, representando $n$ clusters.
 
 ### Ventajas e inconvenientes
 
-Este método proporciona la ventaja de ser no supervisado, proporcionando un sistema genérico de resúmenes de texto. Como desventajas, presenta problemas a la hora de ordenar las oraciones para encontrar las más relevantes en grupos de temas distintos. Otra desventaja es que solo funciona para Inglés.
+Este método proporciona la ventaja de ser no supervisado, proporcionando un sistema genérico de resúmenes de texto. Como desventajas, presenta problemas a la hora de ordenar las oraciones para encontrar las más relevantes en grupos de temas distintos. Otra desventaja es que solo funciona para inglés.
 
-## LDA
+## Métodos basados en Latent Dirichlet Allocation
 
-[@ijain43] muestra que los resúmenes de texto con LDA alcanzan un 72% en LDA 40% comparado con el K-medias tradicional, el cual solo alcanza un 66%.
+Una propuesta de @kar2015 es utilizar un modelo generativo denominado _Latent Dirichlet Allocation_ (LDA) para resumir cambios en documentos, es decir, las diferencias entre distintas versiones de un mismo documento a lo largo del tiempo.
 
-### Metodología
+LDA es un modelo estadístico que intenta capturar las características latentes en una colección de observaciones, de forma que se pueda explicar la similaridad entre ellas mediante dichas características no observadas. Aplicadas a documentos, las características latentes pueden representar temas comunes en los mismos. Un requisito importante de este método es que se debe proporcionar el número de temas por adelantado.
 
-Antes de tratar los datos, para obtener los documentos en una forma adecuada se realiza tokenización, eliminación de stopwords y stemming.
-
-En este sistema se usan las siguientes características:
-
-- Para el título $Score(S_i) = \frac{\text{\# title word in} S_i}{\text{ \# word in title}}$
-- Longitud de oración: $Score(S_i) = \frac{\text{\# word ocurring in }S_i}{\text{\# word occurring in longest sentence}}$
-- Peso del término: $Score(S_i) = \frac{\text{Sum of TF-IDF in} S_i}{\text{Max(Sum of TF-IDF)}}$
-- Posición en la oración; $Score(S_i) = 1$ para la primera y última oración, 0 para el resto.
-- Similitud de sentencia a sentencia: $Score(S_i) = \frac{\text{Sum of sentence similarity in} S_i}{\text{Max(Sum of sentence Similarity)}}$
-- Nombre propio: $Score(S_i) = \frac{\text{\# proper nouns in } S_i}{\text{Length}(S_i)}$
-- Palabra temática: $Score(S_i) = \frac{\text{\# thematic word in } S_i}{\text{Length}(S_i)}$
-- Datos numéricos: $Score(S_i) = \frac{\text{\# numerical data in} S_i}{\text{Length}(S_i)}$
-
-Este algoritmo usa K-means (explicado en secciones anteriores) junto a LDA para resumir los documentos en distintos clusters. LDA (Latent Dirichlet Allocation) es un modelo estadístico que intenta capturar los temas latentes en una colección de documentos. La idea básica consiste en que todos los documentos están representados por mezclas de funciones de densidad aleatorias en los temas, donde cada tema se caracteriza por una distribución sobre palabras. Un requisito importante de este método es que se debe propornionar el número de temas con antelación.
+@ijain43 utilizan LDA para clustering de documentos y descubren que se encuentran mejoras en la calidad de los clusters si los documentos se proporcionan resumidos automáticamente al algoritmo de clustering.
 
 ## Otros algoritmos para el resumen multi-documento
 \label{s.multi.otros}
 
-[@luo] se basa en análisis estadístico para encontrar la relevancia, cobertura y novedad en resúmenes multi documento. Para ello aplica *Latent Semantic Analysis* probabilístico y búsqueda de temas inducida por enlaces probabilística.
+@luo se basan en análisis estadístico para encontrar la relevancia, cobertura y novedad en resúmenes multi documento. Para ello aplica *Latent Semantic Analysis* probabilístico y búsqueda de temas inducida por enlaces probabilística.
 
-[@canhasi] modelan la consulta y los documentos como un grafo para incrementar la variabilidad y diversidad del resumen centrándose en la consulta realizada. Usa términos, oraciones y documentos como conjuntos de vértices y la similitudes entre ellos como enlaces. Los clusters se crean en base a los pesos de los enlaces. Tanto [@canhasi] como [@luo] solo son útiles para resúmenes que acepten una consulta.
+@canhasi modelan la consulta y los documentos como un grafo para incrementar la variabilidad y diversidad del resumen centrándose en la consulta realizada. Usa términos, oraciones y documentos como conjuntos de vértices y la similitudes entre ellos como enlaces. Los clusters se crean en base a los pesos de los enlaces. Tanto @canhasi como @luo solo son útiles para resúmenes que acepten una consulta.
 
-[@gupta] combina resúmenes de un solo documento usando técnicas de clustering para generar resúmenes multi documento. PAra ello crea primero un resumen uni documento, luego agrupa oraciones usando similitudes sintáticas y semánticas para representar partes del texto que deben incluirse en el resumen. Por último, genera el resumen extrayendo una sola oración de cada cluster.
+@gupta combinan resúmenes de un solo documento usando técnicas de clustering para generar resúmenes multi documento. Para ello crea primero un resumen uni documento, luego agrupa oraciones usando similitudes sintáticas y semánticas para representar partes del texto que deben incluirse en el resumen. Por último, genera el resumen extrayendo una sola oración de cada cluster.
 
-[@goldstein] intenta minimizar la redundancia y maximizar tanto la relevancia como la diversidad. Primero segmenta los documentos en pasajes relevantes a la consulta realizada usando la medida del coseno. En base a la proporción de compresión, se selecciona un número de oraciones. Por último, se reunen las oraciones selecciondas para construir el resulmen final.
+@goldstein intentan minimizar la redundancia y maximizar tanto la relevancia como la diversidad. Primero segmenta los documentos en pasajes relevantes a la consulta realizada usando la medida del coseno. En base a la proporción de compresión, se selecciona un número de oraciones. Por último, se reunen las oraciones selecciondas para construir el resulmen final.
 
 # Conclusiones
 
 \label{s.conc}
-
 
 En este trabajo hemos explorado algunos algoritmos relevantes en la escena de la generación automática de resúmenes utilizando clustering. Se ha comprobado cómo los métodos de agrupamiento pueden ser de gran utilidad a la hora de resumir textos pero también quedan abiertas vías para el aprovechamiento de algunas de dichas técnicas. En particular, hay pocos trabajos al respecto en resúmenes de documento único y no hemos visto aprovechadas técnicas como el clustering jerárquico en este ámbito.
 

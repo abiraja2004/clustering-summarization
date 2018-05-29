@@ -30,6 +30,13 @@ Categorías:
 
 ## K-means
 
+- Representar las frases tal que se puedan particionar en (K) clusters y seleccionar frases de esos clusters para construir resumen.
+
+1. Representación: vectores m-dimensionales
+2. Selección de K: $K=\frac{L}{Avg_D}$
+3. Particionado: asignación/actualización
+4. Selección de frases: definir importancia de cada cluster y de cada frase dentro de cada cluster
+
 ## EM clustering
 
 ## Otros

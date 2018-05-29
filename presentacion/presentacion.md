@@ -37,9 +37,24 @@ Categorías:
 3. Particionado: asignación/actualización
 4. Selección de frases: definir importancia de cada cluster y de cada frase dentro de cada cluster
 
+- Desventajas
+
 ## EM clustering
 
+- Clusters vienen dados por métodos probabilísticos
+- Representación: extraer Maximal Frequent Sequences (MFS)
+- Proceso de asignación de pesos: booleano
+- Encontrar la función de densidad de probabilidad de los datos: como CL de tantas componentes como número de clusters (k)
+- Desventajas
+
 ## Otros
+
+- CollabRank(2008): varios documentos para resumir uno
+- grafo de dependencias junto con coeficiente de clustering modificado (2011)
+	- nodos representan términos o frases con mucha aparición
+	- aristas representan relaciones
+- Matsuo y Ishizuka (2004): matrices de co-ocurrencia y clustering
+- MEAD (2001): basado en centroides
 
 # Multi-documento
 

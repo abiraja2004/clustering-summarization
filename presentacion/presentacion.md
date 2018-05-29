@@ -60,9 +60,37 @@ Categorías:
 
 ## System Based on Statistics and Linguistic Treatment
 
+- _Puntuación de oraciones_: Frecuencia palabra/TF-IDF
+- _Agrupamiento de oraciones_: Modelo Gráfico 4D. Vértice => Sentencia.
+- _Desventajas_: Ordenar frases en grupos distintos.
+- _Ventajas_: No supervisado
+
+### Agrupamiento de Oraciones
+
+4 Tipos de enlaces:
+
+- Similitud Estadística: $\text{Wsim}(Si, Sj) = \frac{\vec{Si}\vec{Sj}}{\left \lVert \vec{Si} \right \rVert \times \left \lVert \vec{Sj} \right \rVert}$.
+- Similitud Semántica: Relaciones como sinónimos. Solo guarda nombres.
+- Resolución Co-Referencia: Identifica nombres que referencian a misma entidad.
+- Relaciones de Discurso: Cómo se conectan lógicamente dos segmentos de un discurso.
+
 ## Métodos basados en Latent Dirichlet Allocation
 
+- Modelo Generativo LDA.
+- Input: Diffs de documentos.
+- Puntúa términos y los acumula para frase.
+
+### Puntuación
+
+3 Enfoques
+
+- Función Jatowt, Bun y Ishizuka (_Baseline_)
+- Puntuar más alto palabras insertadas en diff, más bajo eliminado. (TTS)
+- Generarlas con LDA a partir de diffs. (2 temas)
+
 ## Otros
+
+-
 
 # Conclusiones
 

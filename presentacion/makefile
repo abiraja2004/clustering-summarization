@@ -4,4 +4,4 @@ default: presentacion.pdf
 	pandoc -o $@ $< -t beamer --standalone
 
 %.pdf: %.md
-	pandoc -o $@ $< -t beamer --pdf-engine=xelatex
+	pandoc -o $@ $< -t beamer --latex-engine=xelatex

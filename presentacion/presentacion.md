@@ -51,8 +51,8 @@ Categorías:
 
 - CollabRank(2008): varios documentos para resumir uno
 - grafo de dependencias junto con coeficiente de clustering modificado (2011)
-	- nodos representan términos o frases con mucha aparición
-	- aristas representan relaciones
+    - nodos representan términos o frases con mucha aparición
+    - aristas representan relaciones
 - Matsuo y Ishizuka (2004): matrices de co-ocurrencia y clustering
 - MEAD (2001): basado en centroides
 
@@ -65,7 +65,7 @@ Categorías:
 - _Desventajas_: Ordenar frases en grupos distintos.
 - _Ventajas_: No supervisado
 
-### Agrupamiento de Oraciones
+## Agrupamiento de Oraciones
 
 4 Tipos de enlaces:
 
@@ -80,7 +80,7 @@ Categorías:
 - Input: Diffs de documentos.
 - Puntúa términos y los acumula para frase.
 
-### Puntuación
+## Puntuación
 
 3 Enfoques
 
@@ -90,7 +90,10 @@ Categorías:
 
 ## Otros
 
--
+- Luo et al. (2013): Análisis estadístico con _Latent Semantic Analysis_
+- Canhasi y Kononenko (2014): Términos, oraciones y documentos como vértices y similitudes como enlaces.
+- Gupta y Siddiqui (2012): Combina resúmenes de documento único para multi.
+- Goldstein et al. (2000): Min. redundancia, Max. relevancia/diversidad.
 
 # Conclusiones
 
